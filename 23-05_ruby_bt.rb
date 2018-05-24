@@ -76,14 +76,13 @@ class Basic_array
 		puts "Input arr2:"
 		arr2 = self.input
 		
-		size1 = arr1.length
-		size2 = arr2.length
+		arr1.map {|e| e
+			arr2.map {|i| i
+				puts "#{[e, i]}"
+			}.flatten
+		}.flatten
 
-		for i in 0...size1
-			for j in 0...size2
-				print "[#{i}, #{j}]"
-			end
-		end
+		
 	end
 
 	def multiple02
@@ -98,36 +97,28 @@ class Basic_array
 			end
 		end
 	end
-end
+
 
 	def multiple03
 		puts "Input arr1:"
 		arr1 = self.input
 		puts "Input arr2:"
 		arr2 = self.input
-		
-		size1 = arr1.length
-
-		for i in 0...size1
-			arr2.each do |j|
-				print "[#{i}, #{j}]"
-			end
-		end
+		puts "#{arr1.product(arr2)}"
 	end
-
+end
 puts "--Demo 01-01--"
 demo = Basic_array.new
-# demo.multiple
 demo.multiple01
-demo.multiple02
-demo.multiple03
+# demo.multiple02
+# demo.multiple03
 puts "--------------"
 #Second way: 
 
 
 #task 2: anagram
 class AreAnagrams
-	def are_anagrams(str1, str2)
+	def are_anagrams01?(str1, str2)
 		size1 = str1.length.to_i
 		size2 = str2.length.to_i
 		if size1 == size2
@@ -144,6 +135,32 @@ class AreAnagrams
 
 	end
 
+	def are_anagrams02?(str1, str2)
+		puts "#{str1.chars.sort(&:casecmp).join.downcase == str2.chars.sort(&:casecmp).join.downcase}"
+	end
+
+	def are_anagrams03?(str1, str2)
+		size1 = str1.length.to_i
+		size2 = str2.length.to_i
+		if size1 == size2
+			str1.each_char{|i| 
+				check = false
+				str2.each_char{ |e|
+					if i.to_s.downcase == e.to_s.downcase 
+						check = true
+					end
+				}
+				if check == false
+					return false
+				end
+			}
+			return true
+		else 
+			return false
+		end
+	end
+
+
 	def demo
 		str = "Hello"
 		size = str.length
@@ -153,13 +170,14 @@ class AreAnagrams
 	end
 end
 
+
 puts "--Demo Anagram--"
 a = AreAnagrams.new
 print "Input str1: "
 str1 = gets.chomp
 print "Input str2: "
 str2 = gets.chomp
-check = a.are_anagrams(str1, str2)
+check = a.are_anagrams03?(str1, str2)
 puts "Result: #{check}"
 puts "----------------"
 
@@ -172,31 +190,46 @@ class Palindorme
 			return false
 		end
 	end
-	def is_palindrome?(str)
+	def is_palindrome01?(str)
 		temp = nil
 		size = str.length
 		for i in 0...size
 			s = str[i]
 			if self.is_alphabet?(s)
 				if temp == nil
-				temp = str[i]
+					temp = str[i]
 				else
-				temp += str[i]
+					temp += str[i]
 				end
 			end
 		end
 		return temp
 	end
 
+	def is_palindrome02?(str)
+		size = str.length
+		i = 0
+		while i < size
+			reg = /^[a-zA-Z]+$/.match(str[i])
+			if str[i].to_s != reg.to_s
+				str = str.delete str[i]
+				i -= 1
+			end
+			i += 1
+		end
+		return str
+	end
 
-
+	def is_palindrome03?(str)
+		str.gsub(/[^a-zA-Z_]/, "")
+	end
 end
 
 puts "--Demo Palindorme--"
 print "Input a string which you want to check: "
 str = gets.chomp
 p = Palindorme.new
-s = p.is_palindrome?(str)
+s = p.is_palindrome02?(str)
 puts "#{s}"
 puts "-------------------"
 
